@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Second Look — Mortgage Review</title>
+  <meta name="description" content="Get a free second look at your Loan Estimate from an experienced mortgage advisor." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../shared/styles.css" />
+</head>
+<body>
+
+  <!-- Loading skeleton shown while fetching LO data -->
+  <div id="loadingState" class="loading-state" aria-live="polite">
+    <div class="skeleton-header">
+      <div class="skeleton-avatar"></div>
+      <div class="skeleton-lines">
+        <div class="skeleton-line w-40"></div>
+        <div class="skeleton-line w-28"></div>
+        <div class="skeleton-line w-20"></div>
+      </div>
+    </div>
+    <div class="skeleton-block h-32"></div>
+    <div class="skeleton-block h-96"></div>
+  </div>
+
+  <!-- Main page content (hidden until LO data loads) -->
+  <div id="pageContent" class="page-wrapper" style="display:none;">
+
+    <header class="advisor-header fade-in">
+      <div class="advisor-card">
+        <div class="advisor-avatar-wrap">
+          <img id="advisorHeadshot" src="" alt="" class="advisor-headshot" />
+          <div id="advisorInitials" class="advisor-initials" style="display:none;"></div>
+        </div>
+        <div class="advisor-meta">
+          <p class="advisor-name" id="advisorName"></p>
+          <p class="advisor-title" id="advisorTitle"></p>
+          <p class="advisor-nmls" id="advisorNmls"></p>
+          <div class="advisor-contact" id="advisorContact"></div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero fade-in delay-1">
+        <h1 class="hero-headline" id="heroHeadline"></h1>
+        <div class="hero-body" id="heroBody"></div>
+      </section>
+
+      <section class="form-section fade-in delay-2">
+
+        <form id="submissionForm" novalidate>
+          <!-- Hidden fields tie the submission to the correct loan officer -->
+          <input type="hidden" id="loanOfficerSlug" name="loanOfficerSlug" />
+          <input type="hidden" id="loanOfficerId"   name="loanOfficerId" />
+
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label for="firstName">First Name <span class="req">*</span></label>
+              <input type="text" id="firstName" autocomplete="given-name" placeholder="Jane" required />
+              <span class="err" id="firstNameErr"></span>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name <span class="req">*</span></label>
+              <input type="text" id="lastName" autocomplete="family-name" placeholder="Smith" required />
+              <span class="err" id="lastNameErr"></span>
+            </div>
+          </div>
+
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label for="email">Email <span class="req">*</span></label>
+              <input type="email" id="email" autocomplete="email" placeholder="jane@example.com" required />
+              <span class="err" id="emailErr"></span>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone <span class="req">*</span></label>
+              <input type="tel" id="phone" autocomplete="tel" placeholder="(555) 555-5555" required />
+              <span class="err" id="phoneErr"></span>
+            </div>
+          </div>
+
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label for="propertyState">Property State <span class="req">*</span></label>
+              <select id="propertyState" required>
+                <option value="">Select a state…</option>
+                <option>Alabama</option><option>Alaska</option><option>Arizona</option>
+                <option>Arkansas</option><option>California</option><option>Colorado</option>
+                <option>Connecticut</option><option>Delaware</option><option>Florida</option>
+                <option>Georgia</option><option>Hawaii</option><option>Idaho</option>
+                <option>Illinois</option><option>Indiana</option><option>Iowa</option>
+                <option>Kansas</option><option>Kentucky</option><option>Louisiana</option>
+                <option>Maine</option><option>Maryland</option><option>Massachusetts</option>
+                <option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
+                <option>Missouri</option><option>Montana</option><option>Nebraska</option>
+                <option>Nevada</option><option>New Hampshire</option><option>New Jersey</option>
+                <option>New Mexico</option><option>New York</option><option>North Carolina</option>
+                <option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
+                <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option>
+                <option>South Carolina</option><option>South Dakota</option><option>Tennessee</option>
+                <option>Texas</option><option>Utah</option><option>Vermont</option>
+                <option>Virginia</option><option>Washington</option><option>West Virginia</option>
+                <option>Wisconsin</option><option>Wyoming</option>
+              </select>
+              <span class="err" id="propertyStateErr"></span>
+            </div>
+            <div class="form-group">
+              <label for="propertyType">Property Type <span class="req">*</span></label>
+              <select id="propertyType" required>
+                <option value="">Select type…</option>
+                <option value="Single Family">Single Family</option>
+                <option value="Condo">Condo</option>
+                <option value="Townhome">Townhome</option>
+                <option value="Multi-Family">Multi-Family</option>
+              </select>
+              <span class="err" id="propertyTypeErr"></span>
+            </div>
+          </div>
+
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label for="propertyUsage">Property Usage <span class="req">*</span></label>
+              <select id="propertyUsage" required>
+                <option value="">Select usage…</option>
+                <option value="Primary Residence">Primary Residence</option>
+                <option value="Second Home">Second Home</option>
+                <option value="Investment Property">Investment Property</option>
+              </select>
+              <span class="err" id="propertyUsageErr"></span>
+            </div>
+            <div class="form-group">
+              <label for="creditScore">Est. Credit Score <span class="opt">(optional)</span></label>
+              <input type="number" id="creditScore" placeholder="e.g. 720" min="300" max="850" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="notes">Notes <span class="opt">(optional)</span></label>
+              <textarea id="notes" rows="3" placeholder="Anything else you'd like me to know…"></textarea>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="leFile">Loan Estimate Upload <span class="req">*</span></label>
+              <div class="upload-zone" id="uploadZone">
+                <input type="file" id="leFile" accept=".pdf,.jpg,.jpeg,.png" required />
+                <div class="upload-placeholder" id="uploadPlaceholder">
+                  <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  <span class="upload-text">Click to upload or drag file here</span>
+                  <span class="upload-hint">PDF, JPG, or PNG · max 10MB</span>
+                </div>
+                <div class="upload-preview" id="uploadPreview" style="display:none;">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  <span id="previewName"></span>
+                  <button type="button" id="removeFile" class="remove-file" aria-label="Remove">✕</button>
+                </div>
+              </div>
+              <span class="err" id="leFileErr"></span>
+            </div>
+          </div>
+
+          <p class="disclaimer">
+            By submitting you agree that your information may be used to respond to your mortgage inquiry. Your information is private and never sold.
+          </p>
+
+          <button type="submit" id="submitBtn" class="submit-btn">
+            <span id="btnLabel">Get My Second Look</span>
+            <span id="btnSpinner" class="spinner" style="display:none;" aria-hidden="true"></span>
+          </button>
+        </form>
+
+        <!-- Shown after successful submission -->
+        <div id="successState" class="success-state" style="display:none;" aria-live="polite">
+          <div class="success-check">
+            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h2 class="success-title">You're all set.</h2>
+          <p class="success-msg">Got it. I'll take a look and get back to you within 24 hours.</p>
+        </div>
+
+      </section>
+    </main>
+
+    <footer class="site-footer fade-in delay-3">
+      <p id="footerText"></p>
+      <p class="footer-legal">Equal Housing Lender. This is not a commitment to lend.</p>
+    </footer>
+
+  </div><!-- /pageContent -->
+
+  <!-- Shown if the slug doesn't match any loan officer -->
+  <div id="notFoundState" class="not-found" style="display:none;" aria-live="polite">
+    <div class="not-found-inner">
+      <h1>Page Not Found</h1>
+      <p>This loan officer page doesn't exist or is no longer active. Please check your link.</p>
+    </div>
+  </div>
+
+  <script src="../config.js"></script>
+  <script src="../shared/page.js"></script>
+</body>
+</html>
