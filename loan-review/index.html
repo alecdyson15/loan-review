@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Second Look — Mortgage Review</title>
+  <title>Loan Review</title>
   <meta name="description" content="Get a free second look at your Loan Estimate from an experienced mortgage advisor." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -145,7 +145,6 @@
 
     label { font-size: .78rem; font-weight: 600; color: var(--gray-800); margin-bottom: 5px; }
     .req { color: var(--error); margin-left: 2px; }
-    .opt { color: var(--gray-400); font-weight: 400; }
 
     input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select, textarea {
       width: 100%; padding: 9px 12px;
@@ -218,7 +217,7 @@
         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </div>
       <div>
-        <div class="topbar-title">Second Look</div>
+        <div class="topbar-title">Loan Review</div>
         <div class="topbar-subtitle">Compare Your Best Offer</div>
       </div>
     </div>
@@ -304,7 +303,7 @@
 
             <div class="form-row two-col">
               <div class="form-group">
-                <label>Credit Score <span class="opt">(optional)</span></label>
+                <label>Credit Score</label>
                 <input type="number" id="creditScore" min="300" max="850" placeholder="e.g. 720" />
               </div>
               <div class="form-group">
@@ -313,8 +312,8 @@
                   <option value="">Select…</option>
                   <option value="Single Family">Single Family</option>
                   <option value="Condo">Condo</option>
-                  <option value="Townhome">Townhome</option>
-                  <option value="Multi-Family">Multi-Family</option>
+                  <option value="Multi Unit">Multi Unit</option>
+                  <option value="Manufactured">Manufactured</option>
                 </select>
                 <span class="err" id="propertyTypeErr"></span>
               </div>
@@ -353,7 +352,7 @@
 
             <div class="form-row">
               <div class="form-group">
-                <label>Notes <span class="opt">(Optional)</span></label>
+                <label>Notes <span style="color:var(--gray-400);font-weight:400;">(Optional)</span></label>
                 <textarea id="notes" placeholder="Anything else you'd like me to know…"></textarea>
               </div>
             </div>
