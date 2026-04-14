@@ -135,7 +135,6 @@
     .advisor-contact a:hover { text-decoration: underline; }
 
     .form-col { flex: 1; min-width: 0; }
-
     .intro-text { font-size: .95rem; color: var(--gray-600); line-height: 1.7; margin-bottom: 24px; }
 
     .form-row { margin-bottom: 16px; }
@@ -272,7 +271,7 @@
             <div class="form-row two-col">
               <div class="form-group">
                 <label>Mobile Phone <span class="req">*</span></label>
-                <input type="tel" id="phone" autocomplete="tel" />
+                <input type="tel" id="phone" autocomplete="tel" placeholder="(555) 555-5555" />
                 <span class="err" id="phoneErr"></span>
               </div>
               <div class="form-group">
@@ -390,6 +389,21 @@
       SUPABASE_URL: 'https://huerkeplyygemsceldmi.supabase.co',
       SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1ZXJrZXBseXlnZW1zY2VsZG1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxOTEwODQsImV4cCI6MjA5MTc2NzA4NH0.LisvRB2loX9cYhAQ1_BRN8_E1s8l9Zj0RZMFTU5lKRM'
     };
+
+    // Auto-format phone number as user types
+    document.addEventListener('DOMContentLoaded', function() {
+      const phoneInput = document.getElementById('phone');
+      if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+          let digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+          let formatted = '';
+          if (digits.length > 0) formatted = '(' + digits.slice(0, 3);
+          if (digits.length >= 4) formatted += ') ' + digits.slice(3, 6);
+          if (digits.length >= 7) formatted += '-' + digits.slice(6, 10);
+          e.target.value = formatted;
+        });
+      }
+    });
   </script>
   <script src="/shared/page.js"></script>
 
