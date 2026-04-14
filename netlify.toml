@@ -1,5 +1,5 @@
 # netlify.toml
-# Configuration for the Second Look multi-LO platform
+# Configuration for the Loan Review multi-LO platform
 
 [build]
   publish   = "."
@@ -26,8 +26,8 @@
 # Routing — all /second-look/[slug] paths serve the same index.html
 # JavaScript reads the slug from the URL
 [[redirects]]
-  from   = "/second-look/*"
-  to     = "/second-look/index.html"
+  from   = "/loan-review/*"
+  to     = "/loan-review/index.html"
   status = 200
 
 # Catch-all fallback
