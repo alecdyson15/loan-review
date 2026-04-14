@@ -57,7 +57,7 @@ function renderAdvisor(lo) {
   setValue('loanOfficerSlug', lo.slug);
   setValue('loanOfficerId',   lo.id);
 
-  document.title = `Second Look — ${name}`;
+  document.title = `Loan Review — ${name}`;
 }
 
 function setText(id, val) {
