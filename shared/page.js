@@ -2,7 +2,7 @@
  * shared/page.js
  *
  * Handles:
- *  1. Reading the slug from the URL (/second-look/[slug])
+ *  1. Reading the slug from the URL (/loan-review/[slug])
  *  2. Fetching loan officer data from Supabase (anon key, SELECT only)
  *  3. Rendering the page with the LO's info
  *  4. Form validation
@@ -13,7 +13,7 @@ const SUPABASE_URL      = window.__env?.SUPABASE_URL      || '';
 const SUPABASE_ANON_KEY = window.__env?.SUPABASE_ANON_KEY || '';
 
 // ── Read slug from URL path ───────────────────────────────────────────────────
-// e.g. /second-look/alec → "alec"
+// e.g. /loan-review/alec → "alec"
 function getSlugFromPath() {
   const parts = window.location.pathname.replace(/\/$/, '').split('/');
   return parts[parts.length - 1].toLowerCase();
