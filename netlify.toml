@@ -32,6 +32,6 @@
 
 # Catch-all fallback
 [[redirects]]
-  from   = "/*"
-  to     = "/index.html"
+ from   = "/loan-review/*"
+  to     = "/loan-review/index.html"
   status = 200
