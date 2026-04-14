@@ -139,13 +139,12 @@ function showBanner(msg) {
   banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function setupForm() {
   const form         = document.getElementById('submissionForm');
   const successState = document.getElementById('successState');
   const fileInput    = document.getElementById('leFile');
   const fileNameEl   = document.getElementById('fileName');
 
-  // Update filename display
   if (fileInput && fileNameEl) {
     fileInput.addEventListener('change', () => {
       fileNameEl.textContent = fileInput.files[0] ? fileInput.files[0].name : 'No file chosen';
@@ -195,9 +194,9 @@ document.addEventListener('DOMContentLoaded', () => {
       setLoading(false);
     }
   });
-});
+}
 
-// Bootstrap
+// Bootstrap — runs on page load
 (async function init() {
   const slug     = getSlugFromPath();
   const loading  = document.getElementById('loadingState');
@@ -221,6 +220,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderAdvisor(lo);
     if (content) content.style.display = 'flex';
+
+    // Set up form AFTER page is visible
+    setupForm();
 
   } catch (err) {
     console.error('Init error:', err);
