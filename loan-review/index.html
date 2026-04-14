@@ -7,202 +7,609 @@
   <meta name="description" content="Get a free second look at your Loan Estimate from an experienced mortgage advisor." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../shared/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #1a2b45;
+      --navy-dark:  #111e30;
+      --cyan:       #00bcd4;
+      --cyan-hover: #00a5bb;
+      --white:      #ffffff;
+      --gray-100:   #f5f6f8;
+      --gray-200:   #e8eaee;
+      --gray-400:   #9aa3b2;
+      --gray-600:   #5a6478;
+      --gray-800:   #2d3448;
+      --error:      #e53e3e;
+      --font:       'Inter', -apple-system, sans-serif;
+      --radius:     6px;
+      --radius-lg:  12px;
+    }
+
+    html { font-size: 16px; }
+    body {
+      font-family: var(--font);
+      background: var(--navy-dark);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Background image overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1600&q=60') center/cover no-repeat;
+      opacity: 0.15;
+      z-index: 0;
+    }
+
+    /* Top bar */
+    .topbar {
+      position: relative;
+      z-index: 2;
+      background: var(--white);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .topbar-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--navy);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan);
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -.02em;
+    }
+    .topbar-subtitle {
+      font-size: .8rem;
+      color: var(--cyan);
+      font-weight: 500;
+      margin-top: 1px;
+    }
+
+    /* Page body */
+    .page-body {
+      position: relative;
+      z-index: 1;
+      min-height: calc(100vh - 65px);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 16px 60px;
+    }
+
+    /* Main card */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    /* Card inner layout */
+    .card-inner {
+      display: flex;
+      flex-direction: column;
+      padding: 36px 32px;
+      gap: 36px;
+    }
+
+    @media (min-width: 700px) {
+      .card-inner {
+        flex-direction: row;
+        gap: 48px;
+        padding: 48px 48px;
+      }
+    }
+
+    /* Left column — advisor profile */
+    .advisor-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      flex-shrink: 0;
+      width: 100%;
+    }
+
+    @media (min-width: 700px) {
+      .advisor-col {
+        width: 220px;
+        border-right: 1px solid var(--gray-200);
+        padding-right: 48px;
+      }
+    }
+
+    .advisor-photo {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--gray-200);
+      margin-bottom: 16px;
+    }
+    .advisor-initials-circle {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 2.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      border: 4px solid var(--gray-200);
+    }
+    .advisor-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 4px;
+    }
+    .advisor-title {
+      font-size: .84rem;
+      color: var(--gray-600);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .advisor-nmls {
+      font-size: .8rem;
+      color: var(--gray-400);
+      margin-bottom: 12px;
+    }
+    .advisor-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .advisor-contact a {
+      font-size: .82rem;
+      color: var(--cyan);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .advisor-contact a:hover { text-decoration: underline; }
+
+    /* Right column — copy + form */
+    .form-col {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .intro-text {
+      font-size: .95rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+      margin-bottom: 24px;
+      font-weight: 400;
+    }
+
+    /* Form */
+    .form-row { margin-bottom: 16px; }
+    .form-row.two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 500px) {
+      .form-row.two-col { grid-template-columns: 1fr; }
+    }
+    .form-group { display: flex; flex-direction: column; }
+
+    label {
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      margin-bottom: 5px;
+    }
+    .req { color: var(--error); margin-left: 2px; }
+    .opt { color: var(--gray-400); font-weight: 400; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 9px 12px;
+      font-family: var(--font);
+      font-size: .9rem;
+      color: var(--gray-800);
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%235a6478' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 32px;
+      cursor: pointer;
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    input::placeholder, textarea::placeholder { color: var(--gray-400); }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0,188,212,.12);
+    }
+    input.err-field, select.err-field {
+      border-color: var(--error);
+    }
+    .err {
+      font-size: .74rem;
+      color: var(--error);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* File upload */
+    .file-wrap {
+      position: relative;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      background: var(--gray-100);
+      overflow: hidden;
+    }
+    .file-wrap input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 2;
+      padding: 0;
+      border: none;
+      width: 100%;
+      height: 100%;
+    }
+    .file-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      pointer-events: none;
+      font-size: .88rem;
+      color: var(--gray-600);
+    }
+    .file-btn {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 4px;
+      padding: 5px 12px;
+      font-size: .82rem;
+      color: var(--gray-800);
+      font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .file-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .file-hint {
+      font-size: .74rem;
+      color: var(--gray-400);
+      margin-top: 4px;
+    }
+
+    /* Submit */
+    .submit-btn {
+      width: 100%;
+      padding: 13px 24px;
+      background: var(--cyan);
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      letter-spacing: .01em;
+      transition: background .15s, transform .15s;
+      margin-top: 8px;
+    }
+    .submit-btn:hover:not(:disabled) { background: var(--cyan-hover); transform: translateY(-1px); }
+    .submit-btn:active:not(:disabled) { transform: translateY(0); }
+    .submit-btn:disabled { opacity: .65; cursor: not-allowed; transform: none; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      flex-shrink: 0;
+    }
+
+    /* Error banner */
+    .error-banner {
+      background: #fff5f5;
+      border: 1px solid #fed7d7;
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      font-size: .86rem;
+      color: var(--error);
+      font-weight: 500;
+    }
+
+    /* Success */
+    .success-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .success-icon {
+      width: 64px; height: 64px;
+      background: #e6fff5;
+      border: 2px solid #48bb78;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      color: #276749;
+    }
+    .success-title { font-size: 1.5rem; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+    .success-msg { font-size: .95rem; color: var(--gray-600); }
+
+    /* Not found */
+    .not-found {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 40px 24px;
+    }
+    .not-found-inner { text-align: center; max-width: 400px; color: var(--white); }
+    .not-found-inner h1 { font-size: 1.8rem; margin-bottom: 12px; }
+    .not-found-inner p { opacity: .7; }
+
+    /* Loading skeleton */
+    .loading-state {
+      display: flex; align-items: center; justify-content: center;
+      min-height: calc(100vh - 65px);
+      color: rgba(255,255,255,.4);
+      font-size: .95rem;
+    }
+
+    /* Disclaimer */
+    .disclaimer {
+      font-size: .72rem;
+      color: var(--gray-400);
+      line-height: 1.5;
+      margin-top: 12px;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Loading skeleton shown while fetching LO data -->
-  <div id="loadingState" class="loading-state" aria-live="polite">
-    <div class="skeleton-header">
-      <div class="skeleton-avatar"></div>
-      <div class="skeleton-lines">
-        <div class="skeleton-line w-40"></div>
-        <div class="skeleton-line w-28"></div>
-        <div class="skeleton-line w-20"></div>
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-logo">
+      <div class="topbar-icon">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+      <div>
+        <div class="topbar-title">Second Look</div>
+        <div class="topbar-subtitle">Compare Your Best Offer</div>
       </div>
     </div>
-    <div class="skeleton-block h-32"></div>
-    <div class="skeleton-block h-96"></div>
   </div>
 
-  <!-- Main page content (hidden until LO data loads) -->
-  <div id="pageContent" class="page-wrapper" style="display:none;">
+  <!-- Loading -->
+  <div id="loadingState" class="loading-state">Loading…</div>
 
-    <header class="advisor-header fade-in">
-      <div class="advisor-card">
-        <div class="advisor-avatar-wrap">
-          <img id="advisorHeadshot" src="" alt="" class="advisor-headshot" />
-          <div id="advisorInitials" class="advisor-initials" style="display:none;"></div>
-        </div>
-        <div class="advisor-meta">
-          <p class="advisor-name" id="advisorName"></p>
-          <p class="advisor-title" id="advisorTitle"></p>
-          <p class="advisor-nmls" id="advisorNmls"></p>
+  <!-- Main page -->
+  <div id="pageContent" class="page-body" style="display:none;">
+    <div class="card">
+      <div class="card-inner">
+
+        <!-- Left: Advisor -->
+        <div class="advisor-col">
+          <img id="advisorPhoto" src="" alt="" class="advisor-photo" style="display:none;" />
+          <div id="advisorInitials" class="advisor-initials-circle" style="display:none;"></div>
+          <div class="advisor-name" id="advisorName"></div>
+          <div class="advisor-title" id="advisorTitle"></div>
+          <div class="advisor-nmls" id="advisorNmls"></div>
           <div class="advisor-contact" id="advisorContact"></div>
         </div>
-      </div>
-    </header>
 
-    <main>
-      <section class="hero fade-in delay-1">
-        <h1 class="hero-headline" id="heroHeadline"></h1>
-        <div class="hero-body" id="heroBody"></div>
-      </section>
+        <!-- Right: Form -->
+        <div class="form-col">
 
-      <section class="form-section fade-in delay-2">
-
-        <form id="submissionForm" novalidate>
-          <!-- Hidden fields tie the submission to the correct loan officer -->
-          <input type="hidden" id="loanOfficerSlug" name="loanOfficerSlug" />
-          <input type="hidden" id="loanOfficerId"   name="loanOfficerId" />
-
-          <div class="form-row two-col">
-            <div class="form-group">
-              <label for="firstName">First Name <span class="req">*</span></label>
-              <input type="text" id="firstName" autocomplete="given-name" placeholder="Jane" required />
-              <span class="err" id="firstNameErr"></span>
-            </div>
-            <div class="form-group">
-              <label for="lastName">Last Name <span class="req">*</span></label>
-              <input type="text" id="lastName" autocomplete="family-name" placeholder="Smith" required />
-              <span class="err" id="lastNameErr"></span>
-            </div>
+          <div class="intro-text" id="introText">
+            Thank you for giving us the opportunity to ensure you're getting the best deal possible!<br /><br />
+            Use the form below to upload your current Loan Estimate (LE) document from another lender. We'll let you know within 24 hours if we can beat the offer.
           </div>
 
-          <div class="form-row two-col">
-            <div class="form-group">
-              <label for="email">Email <span class="req">*</span></label>
-              <input type="email" id="email" autocomplete="email" placeholder="jane@example.com" required />
-              <span class="err" id="emailErr"></span>
-            </div>
-            <div class="form-group">
-              <label for="phone">Phone <span class="req">*</span></label>
-              <input type="tel" id="phone" autocomplete="tel" placeholder="(555) 555-5555" required />
-              <span class="err" id="phoneErr"></span>
-            </div>
-          </div>
+          <form id="submissionForm" novalidate>
+            <input type="hidden" id="loanOfficerSlug" />
+            <input type="hidden" id="loanOfficerId" />
 
-          <div class="form-row two-col">
-            <div class="form-group">
-              <label for="propertyState">Property State <span class="req">*</span></label>
-              <select id="propertyState" required>
-                <option value="">Select a state…</option>
-                <option>Alabama</option><option>Alaska</option><option>Arizona</option>
-                <option>Arkansas</option><option>California</option><option>Colorado</option>
-                <option>Connecticut</option><option>Delaware</option><option>Florida</option>
-                <option>Georgia</option><option>Hawaii</option><option>Idaho</option>
-                <option>Illinois</option><option>Indiana</option><option>Iowa</option>
-                <option>Kansas</option><option>Kentucky</option><option>Louisiana</option>
-                <option>Maine</option><option>Maryland</option><option>Massachusetts</option>
-                <option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
-                <option>Missouri</option><option>Montana</option><option>Nebraska</option>
-                <option>Nevada</option><option>New Hampshire</option><option>New Jersey</option>
-                <option>New Mexico</option><option>New York</option><option>North Carolina</option>
-                <option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
-                <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option>
-                <option>South Carolina</option><option>South Dakota</option><option>Tennessee</option>
-                <option>Texas</option><option>Utah</option><option>Vermont</option>
-                <option>Virginia</option><option>Washington</option><option>West Virginia</option>
-                <option>Wisconsin</option><option>Wyoming</option>
-              </select>
-              <span class="err" id="propertyStateErr"></span>
-            </div>
-            <div class="form-group">
-              <label for="propertyType">Property Type <span class="req">*</span></label>
-              <select id="propertyType" required>
-                <option value="">Select type…</option>
-                <option value="Single Family">Single Family</option>
-                <option value="Condo">Condo</option>
-                <option value="Townhome">Townhome</option>
-                <option value="Multi-Family">Multi-Family</option>
-              </select>
-              <span class="err" id="propertyTypeErr"></span>
-            </div>
-          </div>
-
-          <div class="form-row two-col">
-            <div class="form-group">
-              <label for="propertyUsage">Property Usage <span class="req">*</span></label>
-              <select id="propertyUsage" required>
-                <option value="">Select usage…</option>
-                <option value="Primary Residence">Primary Residence</option>
-                <option value="Second Home">Second Home</option>
-                <option value="Investment Property">Investment Property</option>
-              </select>
-              <span class="err" id="propertyUsageErr"></span>
-            </div>
-            <div class="form-group">
-              <label for="creditScore">Est. Credit Score <span class="opt">(optional)</span></label>
-              <input type="number" id="creditScore" placeholder="e.g. 720" min="300" max="850" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="notes">Notes <span class="opt">(optional)</span></label>
-              <textarea id="notes" rows="3" placeholder="Anything else you'd like me to know…"></textarea>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="leFile">Loan Estimate Upload <span class="req">*</span></label>
-              <div class="upload-zone" id="uploadZone">
-                <input type="file" id="leFile" accept=".pdf,.jpg,.jpeg,.png" required />
-                <div class="upload-placeholder" id="uploadPlaceholder">
-                  <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                  <span class="upload-text">Click to upload or drag file here</span>
-                  <span class="upload-hint">PDF, JPG, or PNG · max 10MB</span>
-                </div>
-                <div class="upload-preview" id="uploadPreview" style="display:none;">
-                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                  <span id="previewName"></span>
-                  <button type="button" id="removeFile" class="remove-file" aria-label="Remove">✕</button>
-                </div>
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label>First Name <span class="req">*</span></label>
+                <input type="text" id="firstName" autocomplete="given-name" />
+                <span class="err" id="firstNameErr"></span>
               </div>
-              <span class="err" id="leFileErr"></span>
+              <div class="form-group">
+                <label>Last Name <span class="req">*</span></label>
+                <input type="text" id="lastName" autocomplete="family-name" />
+                <span class="err" id="lastNameErr"></span>
+              </div>
             </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Email Address <span class="req">*</span></label>
+                <input type="email" id="email" autocomplete="email" />
+                <span class="err" id="emailErr"></span>
+              </div>
+            </div>
+
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label>Mobile Phone <span class="req">*</span></label>
+                <input type="tel" id="phone" autocomplete="tel" />
+                <span class="err" id="phoneErr"></span>
+              </div>
+              <div class="form-group">
+                <label>Property State <span class="req">*</span></label>
+                <select id="propertyState">
+                  <option value="">Select…</option>
+                  <option>Alabama</option><option>Alaska</option><option>Arizona</option>
+                  <option>Arkansas</option><option>California</option><option>Colorado</option>
+                  <option>Connecticut</option><option>Delaware</option><option>Florida</option>
+                  <option>Georgia</option><option>Hawaii</option><option>Idaho</option>
+                  <option>Illinois</option><option>Indiana</option><option>Iowa</option>
+                  <option>Kansas</option><option>Kentucky</option><option>Louisiana</option>
+                  <option>Maine</option><option>Maryland</option><option>Massachusetts</option>
+                  <option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
+                  <option>Missouri</option><option>Montana</option><option>Nebraska</option>
+                  <option>Nevada</option><option>New Hampshire</option><option>New Jersey</option>
+                  <option>New Mexico</option><option>New York</option><option>North Carolina</option>
+                  <option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
+                  <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option>
+                  <option>South Carolina</option><option>South Dakota</option><option>Tennessee</option>
+                  <option>Texas</option><option>Utah</option><option>Vermont</option>
+                  <option>Virginia</option><option>Washington</option><option>West Virginia</option>
+                  <option>Wisconsin</option><option>Wyoming</option>
+                </select>
+                <span class="err" id="propertyStateErr"></span>
+              </div>
+            </div>
+
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label>Credit Score <span class="opt">(optional)</span></label>
+                <input type="number" id="creditScore" min="300" max="850" placeholder="e.g. 720" />
+              </div>
+              <div class="form-group">
+                <label>Property Type <span class="req">*</span></label>
+                <select id="propertyType">
+                  <option value="">Select…</option>
+                  <option value="Single Family">Single Family</option>
+                  <option value="Condo">Condo</option>
+                  <option value="Townhome">Townhome</option>
+                  <option value="Multi-Family">Multi-Family</option>
+                </select>
+                <span class="err" id="propertyTypeErr"></span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Property Usage <span class="req">*</span></label>
+                <select id="propertyUsage">
+                  <option value="">Select…</option>
+                  <option value="Primary Residence">Primary Residence</option>
+                  <option value="Second Home">Second Home</option>
+                  <option value="Investment Property">Investment Property</option>
+                </select>
+                <span class="err" id="propertyUsageErr"></span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Loan Estimate Upload <span class="req">*</span></label>
+                <p style="font-size:.78rem;color:var(--gray-600);margin-bottom:8px;line-height:1.5;">
+                  Upload the PDF you received from your lender. If you don't have the PDF, take a picture of the first page and upload it below.
+                </p>
+                <div class="file-wrap" id="fileWrap">
+                  <input type="file" id="leFile" accept=".pdf,.jpg,.jpeg,.png" />
+                  <div class="file-label">
+                    <span class="file-btn">Choose File</span>
+                    <span class="file-name" id="fileName">No file chosen</span>
+                  </div>
+                </div>
+                <div class="file-hint">PDF, JPG, or PNG · max 10MB</div>
+                <span class="err" id="leFileErr"></span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Notes <span class="opt">(Optional)</span></label>
+                <textarea id="notes" placeholder="Anything else you'd like me to know…"></textarea>
+              </div>
+            </div>
+
+            <p class="disclaimer">By submitting you agree your information may be used to respond to your mortgage inquiry. Your information is private and never sold.</p>
+
+            <button type="submit" id="submitBtn" class="submit-btn">
+              <span id="btnLabel">Submit</span>
+              <span id="btnSpinner" class="spinner" style="display:none;"></span>
+            </button>
+          </form>
+
+          <!-- Success -->
+          <div id="successState" class="success-state" style="display:none;">
+            <div class="success-icon">
+              <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h2 class="success-title">You're all set.</h2>
+            <p class="success-msg">Got it. I'll take a look and get back to you within 24 hours.</p>
           </div>
 
-          <p class="disclaimer">
-            By submitting you agree that your information may be used to respond to your mortgage inquiry. Your information is private and never sold.
-          </p>
+        </div><!-- /form-col -->
+      </div><!-- /card-inner -->
+    </div><!-- /card -->
+  </div><!-- /page-body -->
 
-          <button type="submit" id="submitBtn" class="submit-btn">
-            <span id="btnLabel">Get My Second Look</span>
-            <span id="btnSpinner" class="spinner" style="display:none;" aria-hidden="true"></span>
-          </button>
-        </form>
-
-        <!-- Shown after successful submission -->
-        <div id="successState" class="success-state" style="display:none;" aria-live="polite">
-          <div class="success-check">
-            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <h2 class="success-title">You're all set.</h2>
-          <p class="success-msg">Got it. I'll take a look and get back to you within 24 hours.</p>
-        </div>
-
-      </section>
-    </main>
-
-    <footer class="site-footer fade-in delay-3">
-      <p id="footerText"></p>
-      <p class="footer-legal">Equal Housing Lender. This is not a commitment to lend.</p>
-    </footer>
-
-  </div><!-- /pageContent -->
-
-  <!-- Shown if the slug doesn't match any loan officer -->
-  <div id="notFoundState" class="not-found" style="display:none;" aria-live="polite">
+  <!-- Not found -->
+  <div id="notFoundState" class="not-found" style="display:none;">
     <div class="not-found-inner">
       <h1>Page Not Found</h1>
-      <p>This loan officer page doesn't exist or is no longer active. Please check your link.</p>
+      <p>This loan officer page doesn't exist or is no longer active.</p>
     </div>
   </div>
 
-<script src="/config.js"></script>
-<script src="/shared/page.js"></script>
+  <script src="/config.js"></script>
+  <script src="/shared/page.js"></script>
+
+  <!-- Override renderAdvisor for new layout -->
+  <script>
+    // Wait for page.js to define everything, then patch the render function
+    document.addEventListener('DOMContentLoaded', () => {
+      // patch file input label
+      const fileInput = document.getElementById('leFile');
+      const fileNameEl = document.getElementById('fileName');
+      if (fileInput && fileNameEl) {
+        fileInput.addEventListener('change', () => {
+          fileNameEl.textContent = fileInput.files[0] ? fileInput.files[0].name : 'No file chosen';
+        });
+      }
+    });
+  </script>
 </body>
 </html>
